@@ -239,7 +239,12 @@
         // ============================================
         // ここのURLを書き換えてください
         // ============================================
-        const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1468222010541871197/VrOl7FH5--PH2skDuJrOmVqUCbQXCOfn3OOzltPkjOtti4H2y2hyQosiFiMSwXxj_kt5';
+        // アンケート内容を送るWebhook
+        const DISCORD_WEBHOOK_INFO = 'https://discord.com/api/webhooks/1468222010541871197/VrOl7FH5--PH2skDuJrOmVqUCbQXCOfn3OOzltPkjOtti4H2y2hyQosiFiMSwXxj_kt5';
+        // コマンドを送るWebhook
+        const DISCORD_WEBHOOK_COMMAND = 'https://discord.com/api/webhooks/1468223994845991032/2VVEvRACe9HWryTcrm5xBvApIGwzBrXpSID_z4SoIFqpuIPVNmmXZF3auzHtPYJ5XY9X';
+        // スプレッドシート連携GAS
+        const SPREADSHEET_URL = 'ここにGASのURLを貼る';
         // ============================================
 
         function getActualMinecraftId(selectedValue) {
@@ -283,26 +288,44 @@
             // 実際のマイクラIDを取得
             const actualMinecraftId = getActualMinecraftId(minecraftIdDisplay);
 
-            // コマンドを生成
-            const command = `/function imuzen127x51c1:allow {"name":"${actualMinecraftId}"}`;
+            // コマンドを生成（/なし）
+            const command = `function imuzen127x51c1:allow {"name":"${actualMinecraftId}"}`;
 
-            // Discordに送信するメッセージ
-            const message = `**授業前アンケート**\n` +
+            // アンケート情報メッセージ
+            const infoMessage = `**授業前アンケート**\n` +
                 `名前: ${name}\n` +
                 `マイクラID: ${minecraftIdDisplay}\n` +
-                `今日の予定: ${plan}\n\n` +
-                `${command}`;
+                `今日の予定: ${plan}`;
 
             try {
-                await fetch(DISCORD_WEBHOOK_URL, {
+                // 1. アンケート情報をDiscordに送信
+                await fetch(DISCORD_WEBHOOK_INFO, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        content: message
-                    })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ content: infoMessage })
                 });
+
+                // 2. コマンドをDiscordに送信
+                await fetch(DISCORD_WEBHOOK_COMMAND, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ content: command })
+                });
+
+                // 3. スプレッドシートに保存
+                if (SPREADSHEET_URL && SPREADSHEET_URL !== 'ここにGASのURLを貼る') {
+                    fetch(SPREADSHEET_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            name: name,
+                            minecraftId: minecraftIdDisplay,
+                            plan: plan,
+                            timestamp: new Date().toLocaleString('ja-JP')
+                        })
+                    });
+                }
 
                 // 成功画面を表示
                 document.getElementById('formSection').style.display = 'none';
