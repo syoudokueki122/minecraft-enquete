@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>授業前アンケート</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #333;
+            font-size: 28px;
+            margin: 0 0 10px 0;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        label .required {
+            color: #ea4335;
+            margin-left: 4px;
+        }
+
+        select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 20px;
+        }
+
+        select:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        textarea:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .success-message h2 {
+            color: #34a853;
+            margin-bottom: 10px;
+        }
+
+        .success-message p {
+            color: #666;
+        }
+
+        .success-message button {
+            margin-top: 20px;
+            width: auto;
+            padding: 12px 30px;
+        }
+
+        .error {
+            color: #ea4335;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .config-note {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            font-size: 12px;
+            color: #856404;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-card">
+            <div id="formSection">
+                <h1>授業前アンケート</h1>
+                <p class="subtitle">授業を始める前に入力してください</p>
+
+                <div class="form-group">
+                    <label>お名前は？<span class="required">*</span></label>
+                    <select id="studentName" required>
+                        <option value="">選択してください</option>
+                        <option value="高橋 怜楓">高橋 怜楓</option>
+                        <option value="谷藤 遥陽">谷藤 遥陽</option>
+                        <option value="佐々木 倖良">佐々木 倖良</option>
+                        <option value="佐々木 映茉">佐々木 映茉</option>
+                        <option value="真田結彩">真田結彩</option>
+                        <option value="伊勢谷 祐人">伊勢谷 祐人</option>
+                        <option value="高橋 花暖">高橋 花暖</option>
+                        <option value="高谷心絆">高谷心絆</option>
+                        <option value="平良 沙那">平良 沙那</option>
+                        <option value="吉田 結都">吉田 結都</option>
+                        <option value="吉田 晴都">吉田 晴都</option>
+                        <option value="真田結良">真田結良</option>
+                        <option value="谷藤迅">谷藤迅</option>
+                        <option value="高橋かんな">高橋かんな</option>
+                        <option value="木下丈路">木下丈路</option>
+                        <option value="紺野はると">紺野はると</option>
+                    </select>
+                    <div class="error" id="nameError">名前を選択してください</div>
+                </div>
+
+                <div class="form-group">
+                    <label>今日のマイクラのIDは？<span class="required">*</span></label>
+                    <select id="minecraftId" required>
+                        <option value="">選択してください</option>
+                        <option value="narutechsc06">narutechsc06</option>
+                        <option value="narutechsc07">narutechsc07</option>
+                        <option value="narutechsc08">narutechsc08</option>
+                        <option value="narutechsc09">narutechsc09</option>
+                        <option value="narutechsc10">narutechsc10</option>
+                        <option value="narutechsc11">narutechsc11</option>
+                        <option value="narutechsc12">narutechsc12</option>
+                        <option value="narutechsc13">narutechsc13</option>
+                        <option value="narutechsc14">narutechsc14</option>
+                        <option value="narutechsc15">narutechsc15</option>
+                        <option value="narutechsc16">narutechsc16</option>
+                        <option value="narutechsc17">narutechsc17</option>
+                        <option value="narutechsc18">narutechsc18</option>
+                        <option value="narutechsc19">narutechsc19</option>
+                        <option value="narutechsc20" data-actual="narutech20">narutechsc20</option>
+                        <option value="narutechsc21">narutechsc21</option>
+                        <option value="narutechsc22">narutechsc22</option>
+                    </select>
+                    <div class="error" id="idError">マイクラIDを選択してください</div>
+                </div>
+
+                <div class="form-group">
+                    <label>今日は何をどのように(誰と)どうする？<span class="required">*</span></label>
+                    <textarea id="todayPlan" placeholder="例: 〇〇くんと一緒に家を建てる" required></textarea>
+                    <div class="error" id="planError">内容を入力してください</div>
+                </div>
+
+                <button type="button" onclick="submitForm()">送信</button>
+            </div>
+
+            <div id="successSection" class="success-message">
+                <h2>送信完了！</h2>
+                <p>アンケートを送信しました。<br>授業を始めてください！</p>
+                <button onclick="resetForm()">もう一度回答する</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // ここのURLを書き換えてください
+        // ============================================
+        const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1468222010541871197/VrOl7FH5--PH2skDuJrOmVqUCbQXCOfn3OOzltPkjOtti4H2y2hyQosiFiMSwXxj_kt5';
+        // ============================================
+
+        function getActualMinecraftId(selectedValue) {
+            const select = document.getElementById('minecraftId');
+            const selectedOption = select.options[select.selectedIndex];
+            // data-actual属性があればそれを使う（narutechsc20 → narutech20）
+            return selectedOption.dataset.actual || selectedValue;
+        }
+
+        async function submitForm() {
+            const name = document.getElementById('studentName').value;
+            const minecraftIdDisplay = document.getElementById('minecraftId').value;
+            const plan = document.getElementById('todayPlan').value.trim();
+
+            // バリデーション
+            let hasError = false;
+
+            if (!name) {
+                document.getElementById('nameError').style.display = 'block';
+                hasError = true;
+            } else {
+                document.getElementById('nameError').style.display = 'none';
+            }
+
+            if (!minecraftIdDisplay) {
+                document.getElementById('idError').style.display = 'block';
+                hasError = true;
+            } else {
+                document.getElementById('idError').style.display = 'none';
+            }
+
+            if (!plan) {
+                document.getElementById('planError').style.display = 'block';
+                hasError = true;
+            } else {
+                document.getElementById('planError').style.display = 'none';
+            }
+
+            if (hasError) return;
+
+            // 実際のマイクラIDを取得
+            const actualMinecraftId = getActualMinecraftId(minecraftIdDisplay);
+
+            // コマンドを生成
+            const command = `/function imuzen127x51c1:allow {"name":"${actualMinecraftId}"}`;
+
+            // Discordに送信するメッセージ
+            const message = `**授業前アンケート**\n` +
+                `名前: ${name}\n` +
+                `マイクラID: ${minecraftIdDisplay}\n` +
+                `今日の予定: ${plan}\n\n` +
+                `${command}`;
+
+            try {
+                await fetch(DISCORD_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        content: message
+                    })
+                });
+
+                // 成功画面を表示
+                document.getElementById('formSection').style.display = 'none';
+                document.getElementById('successSection').style.display = 'block';
+            } catch (error) {
+                console.error('Error:', error);
+                alert('送信に失敗しました。もう一度お試しください。');
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('studentName').value = '';
+            document.getElementById('minecraftId').value = '';
+            document.getElementById('todayPlan').value = '';
+            document.getElementById('formSection').style.display = 'block';
+            document.getElementById('successSection').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
