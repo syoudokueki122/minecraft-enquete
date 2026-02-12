@@ -308,20 +308,15 @@
                     })
                 });
 
-                // スプレッドシート送信
+                // スプレッドシート送信（GETリクエスト）
                 if (GAS_URL && !GAS_URL.includes('ここに')) {
-                    fetch(GAS_URL, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            name: name,
-                            minecraftId: minecraftIdDisplay,
-                            plan: plan
-                        })
-                    }).catch(err => console.error('GAS error:', err));
+                    const gasParams = new URLSearchParams({
+                        name: name,
+                        minecraftId: minecraftIdDisplay,
+                        plan: plan
+                    });
+                    fetch(GAS_URL + '?' + gasParams.toString(), { mode: 'no-cors' })
+                        .catch(err => console.error('GAS error:', err));
                 }
 
                 // 成功画面を表示
