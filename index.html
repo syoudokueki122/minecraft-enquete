@@ -240,6 +240,9 @@
         // ここのURLを書き換えてください
         // ============================================
         const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1468222010541871197/VrOl7FH5--PH2skDuJrOmVqUCbQXCOfn3OOzltPkjOtti4H2y2hyQosiFiMSwXxj_kt5';
+
+        // Google Apps Script Web App URL（デプロイ後のURLをここに貼る）
+        const GAS_URL = 'ここにGASのURLを貼り付け';
         // ============================================
 
         function getActualMinecraftId(selectedValue) {
@@ -294,6 +297,7 @@
                 `${command}`;
 
             try {
+                // Discord送信
                 await fetch(DISCORD_WEBHOOK_URL, {
                     method: 'POST',
                     headers: {
@@ -303,6 +307,22 @@
                         content: message
                     })
                 });
+
+                // スプレッドシート送信
+                if (GAS_URL && !GAS_URL.includes('ここに')) {
+                    fetch(GAS_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            name: name,
+                            minecraftId: minecraftIdDisplay,
+                            plan: plan
+                        })
+                    }).catch(err => console.error('GAS error:', err));
+                }
 
                 // 成功画面を表示
                 document.getElementById('formSection').style.display = 'none';
