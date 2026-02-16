@@ -239,10 +239,10 @@
         // ============================================
         // ここのURLを書き換えてください
         // ============================================
-        // コマンドを送るWebhook
-        const DISCORD_WEBHOOK_COMMAND = 'https://discord.com/api/webhooks/1468223994845991032/2VVEvRACe9HWryTcrm5xBvApIGwzBrXpSID_z4SoIFqpuIPVNmmXZF3auzHtPYJ5XY9X';
-        // スプレッドシート連携GAS
-        const SPREADSHEET_URL = 'https://script.google.com/macros/s/AKfycbxIEtp0M46uAQQpeSBYzr7lgJFMKfnWfK9mIc9B701yCoduYDgl0zA4_Co-AoiamPIw6w/exec';
+        const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1468222010541871197/VrOl7FH5--PH2skDuJrOmVqUCbQXCOfn3OOzltPkjOtti4H2y2hyQosiFiMSwXxj_kt5';
+
+        // Google Apps Script Web App URL（デプロイ後のURLをここに貼る）
+        const GAS_URL = 'https://script.google.com/macros/s/AKfycby5qLFBw3oq-hh5kDwWczO73ZkjWM-GrUeUp53GzHUoUM3-BkVX8jXPi5HY15SyREKW/exec';
         // ============================================
 
         function getActualMinecraftId(selectedValue) {
@@ -286,29 +286,39 @@
             // 実際のマイクラIDを取得
             const actualMinecraftId = getActualMinecraftId(minecraftIdDisplay);
 
-            // コマンドを生成（/なし）
-            const command = `function imuzen127x51c1:allow {"name":"${actualMinecraftId}"}`;
+            // コマンドを生成
+            const command = `/function imuzen127x51c1:allow {"name":"${actualMinecraftId}"}`;
+
+            // Discordに送信するメッセージ
+            const message = `**授業前アンケート**\n` +
+                `名前: ${name}\n` +
+                `マイクラID: ${minecraftIdDisplay}\n` +
+                `今日の予定: ${plan}\n\n` +
+                `${command}`;
 
             try {
-                // 1. コマンドをDiscordに送信
-                await fetch(DISCORD_WEBHOOK_COMMAND, {
+                // Discord送信
+                await fetch(DISCORD_WEBHOOK_URL, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ content: command })
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        content: message
+                    })
                 });
 
-                // 2. スプレッドシートにアンケート情報を保存
-                fetch(SPREADSHEET_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
+                // スプレッドシート送信（GETリクエスト）
+                if (GAS_URL && !GAS_URL.includes('ここに')) {
+                    const gasParams = new URLSearchParams({
                         name: name,
                         minecraftId: minecraftIdDisplay,
                         plan: plan,
                         timestamp: new Date().toLocaleString('ja-JP')
-                    })
-                });
+                    });
+                    fetch(GAS_URL + '?' + gasParams.toString(), { mode: 'no-cors' })
+                        .catch(err => console.error('GAS error:', err));
+                }
 
                 // 成功画面を表示
                 document.getElementById('formSection').style.display = 'none';
